@@ -2,8 +2,8 @@ package dmnlukasik.sonar.dashboard
 
 import org.sonar.wsclient.connectors.HttpClient4Connector
 import org.sonar.wsclient.{Host, Sonar}
-import org.sonar.wsclient.services.TimeMachineQuery
 import org.scala_tools.time.Imports._
+import org.sonar.wsclient.services.{MetricQuery, TimeMachineQuery}
 
 object Main extends App {
   val SONAR_PROJECT_ID = 48569
@@ -15,7 +15,6 @@ object Main extends App {
   timeMachineQuery.setFrom(new DateTime(2011, 11, 6, 0, 0, 0, 0).toDate)
   val resource = sonar.find(timeMachineQuery)
 
-  resource.getCells.foreach(c => println(c.getValues.deep.toString()))
   resource.getColumns.foreach(c =>
     println("metricKey: " + c.getMetricKey +
       ", index: " + c.getIndex +
@@ -23,4 +22,7 @@ object Main extends App {
       ", modelName: " + c.getModelName +
       ", date: " + resource.getCells()(0).getDate) +
       ", value: " + resource.getCells()(0).getValues()(c.getIndex))
+
+  val metric = sonar.findAll(MetricQuery.all())
+  println(metric)
 }
