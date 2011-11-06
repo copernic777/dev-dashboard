@@ -21,6 +21,6 @@ object Main extends App {
       ", index: " + c.getIndex +
       ", characteristicKey: " + c.getCharacteristicKey +
       ", modelName: " + c.getModelName +
-      ", date: " + resource.getCells()(c.getIndex).getDate) +
-      ", value: " + resource.getCells()(c.getIndex).getValues.deep.toString())
+      ", date: " + resource.getCells()(0).getDate) +
+      ", value: " + resource.getCells()(0).getValues()(c.getIndex))
 }
