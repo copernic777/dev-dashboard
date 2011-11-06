@@ -20,6 +20,11 @@
             <version>${scala.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.scala-tools.time</groupId>
+            <artifactId>time_${scala.version}</artifactId>
+            <version>0.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-ws-client</artifactId>
             <version>${sonar.version}</version>
