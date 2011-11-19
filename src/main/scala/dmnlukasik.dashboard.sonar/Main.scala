@@ -4,7 +4,6 @@ import org.sonar.wsclient.connectors.HttpClient4Connector
 import org.sonar.wsclient.{Host, Sonar}
 import org.scala_tools.time.Imports._
 import org.sonar.wsclient.services.TimeMachineQuery
-import scala.collection.JavaConversions._
 
 object Main extends App {
   val SONAR_PROJECT_ID = 48569
