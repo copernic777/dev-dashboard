@@ -1,13 +1,17 @@
 package dmnlukasik.dashboard.sonar
 
-import scala.collection.JavaConversions._
 import org.sonar.wsclient.connectors.HttpClient4Connector
 import org.sonar.wsclient.{Host, Sonar}
 import org.scala_tools.time.Imports._
 import org.sonar.wsclient.services.TimeMachineQuery
 import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.{MongoCollection, MongoConnection}
 import com.mongodb.casbah.commons.conversions.scala._
-import com.mongodb.casbah.{MongoCollection, MongoDB, MongoConnection}
+import org.jfree.data.category.DefaultCategoryDataset
+import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.{ChartPanel, ChartFactory}
+import org.jfree.ui.{RefineryUtilities, ApplicationFrame}
+import java.awt.Dimension
 
 object Main extends App {
   RegisterJodaTimeConversionHelpers()
@@ -31,5 +35,19 @@ object Main extends App {
   resource.getCells().foreach(c =>
     metrics += MongoDBObject("date" -> c.getDate, "value" -> c.getValues()(0)))
 
-  println(metrics.find.mkString("\n"))
+  val mongoMetrics = metrics.find.toSeq
+
+  val dataset = new DefaultCategoryDataset()
+  mongoMetrics.foreach(m =>
+    dataset.addValue(m("value").toString.toDouble, "X", "A")
+  )
+
+  val chart = ChartFactory.createLineChart("AAA", "BBB", "CCC", dataset, PlotOrientation.VERTICAL, false, true, false)
+  val chartPanel = new ChartPanel(chart)
+  chartPanel.setPreferredSize(new Dimension(700, 500))
+  val frame = new ApplicationFrame("Test")
+  frame.setContentPane(chartPanel);
+  frame.pack();
+  RefineryUtilities.centerFrameOnScreen(frame);
+  frame.setVisible(true);
 }
